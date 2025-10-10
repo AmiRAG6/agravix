@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="fa">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Agravix</title>
+  <style>
+    :root{--bg:#050505;--accent:#00ff7f}
+    html,body{height:100%;margin:0;font-family:Tahoma,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;scroll-behavior:smooth}
+    body{background:var(--bg);color:#dfe;direction:rtl}
+    nav{position:fixed;left:12px;top:12px;z-index:40}
+    nav button{display:block;margin:6px 0;padding:8px 12px;border-radius:10px;border:0;background:rgba(255,255,255,0.04);color:#cfc;cursor:pointer}
+    .page{height:100vh;display:flex;align-items:center;justify-content:center;position:relative}
+    #three-wrap{position:fixed;inset:0;z-index:0}
+
+    .card{z-index:10;background:linear-gradient(135deg,rgba(0,0,0,0.45),rgba(0,0,0,0.25));backdrop-filter:blur(6px);padding:26px;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,0.7);max-width:820px;margin:20px;transition:transform 0.6s,opacity 0.6s;opacity:0;transform:translateY(40px)}
+    .card.visible{opacity:1;transform:translateY(0)}
+    h1{font-size:44px;margin:0 0 6px;color:var(--accent);letter-spacing:2px}
+    p.lead{margin:0;font-size:18px;opacity:.9}
+
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;padding:28px;max-width:1200px}
+    .thumb{height:180px;border-radius:12px;overflow:hidden;position:relative;background:#111;border:1px solid rgba(255,255,255,0.03);transition:transform 0.5s,opacity 0.5s;opacity:0;transform:translateY(30px)}
+    .thumb.visible{opacity:1;transform:translateY(0)}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1);transition:transform .6s}
+    .thumb:hover img{transform:scale(1.08)}
+    .overlay-note{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,0.5);padding:6px 10px;border-radius:8px;font-size:13px}
+
+    footer{position:fixed;left:12px;bottom:12px;color:#7f7f7f;font-size:14px;z-index:40;display:flex;flex-direction:column;gap:6px}
+    footer a{color:#00ff7f;text-decoration:none;transition:color .3s}
+    footer a:hover{color:#0ff}
+
+    @media (max-width:700px){h1{font-size:28px}.card{margin:12px;padding:18px} .gallery{padding:16px;gap:8px} .thumb{height:140px}}
+  </style>
+</head>
+<body>
+  <nav>
+    <button data-target="home">خانه</button>
+    <button data-target="gallery">گالری</button>
+    <button data-target="about">درباره</button>
+  </nav>
+
+  <div id="three-wrap"></div>
+
+  <main>
+    <section id="home" class="page">
+      <div class="card">
+        <h1>agravix</h1>
+        <p class="lead"><strong>agravix</strong> — هکری خلاق و برنامه‌نویسی حرفه‌ای که با کد و چالش‌ها زندگی می‌کنه، دنبال ساختن و کشف دنیای دیجیتال.</p>
+        <p style="margin-top:12px;opacity:.85">مهارت‌ها: پایتون · امن‌سازی سرورها · تحلیل شبکه · فول استک · هکر کلاه خاکستری</p>
+      </div>
+    </section>
+
+    <section id="gallery" class="page">
+      <div class="card" style="max-width:calc(100% - 40px)">
+        <h2 style="margin-top:0;color:var(--accent)">گالری</h2>
+        <div class="gallery">
+          <div class="thumb"><img src="/images/agravix_hacker_A_logo.png" alt="تصویر 1"><div class="overlay-note">تصویر 1</div></div>
+          <div class="thumb"><img src="/images/agravix_AG_cyberpunk_logo.png" alt="تصویر 2"><div class="overlay-note">تصویر 2</div></div>
+          <div class="thumb"><img src="/images/A.png" alt="تصویر 3"><div class="overlay-note">تصویر 3</div></div>
+          <div class="thumb"><img src="/images/ag6.png" alt="تصویر 4"><div class="overlay-note">تصویر 4</div></div>
+          <div class="thumb"><img src="/images/turkcoder.png" alt="تصویر 5"><div class="overlay-note">تصویر 5</div></div>
+          <div class="thumb"><img src="/images/L.jpg" alt="تصویر 6"><div class="overlay-note">تصویر 6</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="page">
+      <div class="card" style="text-align:right">
+        <h2 style="color:var(--accent);margin-bottom:6px">درباره agravix</h2>
+        <p>من Agravix هستم، هکری خلاق و برنامه‌نویسی حرفه‌ای که همیشه دنبال کشف، یادگیری و خلق چیزهای نو در دنیای دیجیتال است. عاشق چالش‌ها، کدهای پیچیده و پروژه‌های نوآورانه‌ام و سعی می‌کنم با مهارت و خلاقیتم، دنیای دیجیتال را به شکل متفاوتی تجربه کنم.</p>
+        <p style="margin-top:12px;opacity:.9">تگ‌ها: #هک_اخلاقی #FullStack #CyberAesthetic</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>صفحه های اجتماعی</span>
+    <div style="display:flex;gap:12px">
+      <a href="https://instagram.com/agravix" target="_blank">اینستاگرام</a>
+      <a href="https://youtube.com/agravix" target="_blank">یوتیوب</a>
+      <a href="https://t.me/turkcodder" target="_blank">تلگرام</a>
+      <a href="https://turkcoder.ir" target="_blank">سایت</a>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.158.0/examples/js/controls/OrbitControls.js"></script>
+
+  <script>
+    document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{
+      const id=b.dataset.target;document.getElementById(id).scrollIntoView({behavior:'smooth'});
+    }));
+
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+        }
+      });
+    },{threshold:0.2});
+
+    document.querySelectorAll('.card, .thumb').forEach(el=>observer.observe(el));
+
+    const container = document.getElementById('three-wrap');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50,innerWidth/innerHeight,0.1,2000);
+    camera.position.set(0,0,60);
+    const renderer = new THREE.WebGLRenderer({antialias:true,alpha:true});
+    renderer.setPixelRatio(window.devicePixelRatio);renderer.setSize(innerWidth,innerHeight);
+    container.appendChild(renderer.domElement);
+    scene.fog = new THREE.FogExp2(0x000000, 0.002);
+
+    const rainCount = 12000;
+    const rainGeo = new THREE.BufferGeometry();
+    const positions = new Float32Array(rainCount*3);
+    const speeds = new Float32Array(rainCount);
+    for(let i=0;i<rainCount;i++){
+      positions[i*3+0] = (Math.random()-0.5)*200;
+      positions[i*3+1] = Math.random()*400 - 200;
+      positions[i*3+2] = (Math.random()-0.5)*200;
+      speeds[i] = 0.5 + Math.random()*1.8;
+    }
+    rainGeo.setAttribute('position', new THREE.BufferAttribute(positions,3));
+    rainGeo.setAttribute('aSpeed', new THREE.BufferAttribute(speeds,1));
+
+    const rainMat = new THREE.PointsMaterial({color:0x00ff88,size:1.8,transparent:true});
+    const rain = new THREE.Points(rainGeo, rainMat); scene.add(rain);
+
+    const group = new THREE.Group();
+    for(let i=0;i<18;i++){
+      const g = new THREE.Mesh(new THREE.BoxGeometry(6,3.5,0.8), new THREE.MeshStandardMaterial({color:0x002b00,metalness:.3,roughness:.3,emissive:0x003300,emissiveIntensity:0.6}));
+      g.position.set((Math.random()-0.5)*60,(Math.random()-0.5)*30,(Math.random()-0.5)*40);
+      g.rotation.set(Math.random()*0.6,Math.random()*0.6,Math.random()*0.6);
+      group.add(g);
+    }
+    scene.add(group);
+
+    const l1 = new THREE.DirectionalLight(0xaaffcc,0.6); l1.position.set(10,20,10); scene.add(l1);
+    const l2 = new THREE.PointLight(0x00ff88,0.9,200); l2.position.set(-30,-10,40); scene.add(l2);
+
+    const canvasLabel = document.createElement('canvas'); canvasLabel.width=1024; canvasLabel.height=256;
+    const ctx = canvasLabel.getContext('2d'); ctx.fillStyle='rgba(0,0,0,0.0)'; ctx.fillRect(0,0,1024,256);
+    ctx.font='bold 72px Tahoma'; ctx.fillStyle='#00ff88'; ctx.textAlign='center'; ctx.fillText('agravix',512,110);
+    ctx.font='24px Tahoma'; ctx.fillStyle='rgba(180,255,200,0.9)'; ctx.fillText('Programmer · Ethical Hacker',512,160);
+    const tex = new THREE.CanvasTexture(canvasLabel);
+    const plane = new THREE.Mesh(new THREE.PlaneGeometry(36,9), new THREE.MeshBasicMaterial({map:tex,transparent:true}));
+    plane.position.set(0,6,0); scene.add(plane);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enablePan=false; controls.enableZoom=true; controls.minDistance=20; controls.maxDistance=180;
+
+    let t=0;
+    function animate(){
+      requestAnimationFrame(animate);
+      t+=0.01;
+      const pos = rainGeo.attributes.position.array;
+      const spd = rainGeo.attributes.aSpeed.array;
+      for(let i=0;i<rainCount;i++){
+        pos[i*3+1] -= spd[i]*0.6;
+        if(pos[i*3+1] < -220) pos[i*3+1] = 180 + Math.random()*40;
+      }
+      rainGeo.attributes.position.needsUpdate = true;
+      group.rotation.y += 0.0015;
+      plane.rotation.y = Math.sin(t*0.4)*0.06;
+      renderer.render(scene,camera);
+    }
+    animate();
+
+    addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+  </script>
+</body>
+</html>
+
