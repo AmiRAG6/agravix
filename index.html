@@ -1,1217 +1,2242 @@
-<!doctype html>
-<html lang="fa">
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Agravix | اگراویکس</title>
-  <meta name="description" content="Agravix - برنامه‌نویس حرفه‌ای، هکر اخلاقی، توسعه‌دهنده فول‌استک و تحلیلگر امنیتی">
-  <meta name="author" content="Agravix">
-  <link rel="icon" type="images/png" href="/images/agravix_hacker_A_logo.png">
-  
-  <style>
-    :root {
-      --bg: #050505;
-      --accent: #00ff7f;
-      --accent-glow: rgba(0, 255, 127, 0.4);
-      --text: #dfe;
-      --card-bg: rgba(10, 20, 15, 0.25);
-      --card-border: rgba(0, 255, 127, 0.1);
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: 'Tahoma', 'Segoe UI', system-ui, -apple-system, sans-serif;
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-    }
-    
-    body {
-      background: var(--bg);
-      color: var(--text);
-      direction: rtl;
-      position: relative;
-    }
-    
-    /* Menu Navigation */
-    .menu-container {
-      position: fixed;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      background: rgba(5, 15, 10, 0.8);
-      backdrop-filter: blur(10px);
-      padding: 16px 12px;
-      border-radius: 20px;
-      border: 1px solid var(--card-border);
-      box-shadow: 0 0 30px rgba(0, 255, 127, 0.15);
-    }
-    
-    .menu-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      border: none;
-      background: rgba(0, 30, 15, 0.7);
-      color: var(--accent);
-      font-size: 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .menu-btn:hover {
-      background: rgba(0, 255, 127, 0.15);
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px var(--accent-glow);
-    }
-    
-    .menu-btn.active {
-      background: var(--accent);
-      color: #000;
-      box-shadow: 0 0 20px var(--accent);
-    }
-    
-    .menu-btn .tooltip {
-      position: absolute;
-      right: 60px;
-      background: rgba(0, 20, 10, 0.9);
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-      border: 1px solid var(--card-border);
-    }
-    
-    .menu-btn:hover .tooltip {
-      opacity: 1;
-    }
-    
-    /* Pages */
-    .page {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      padding: 20px;
-    }
-    
-    #three-wrap {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-    
-    /* Cards */
-    .card {
-      z-index: 10;
-      background: linear-gradient(135deg, var(--card-bg), rgba(5, 15, 10, 0.4));
-      backdrop-filter: blur(15px);
-      padding: 40px;
-      border-radius: 24px;
-      border: 1px solid var(--card-border);
-      box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.8),
-        0 0 0 1px rgba(0, 255, 127, 0.05),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-      max-width: 900px;
-      margin: 20px;
-      transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-      opacity: 0;
-      transform: translateY(60px) scale(0.95);
-    }
-    
-    .card.visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-    
-    h1 {
-      font-size: 56px;
-      margin: 0 0 12px;
-      color: var(--accent);
-      letter-spacing: 3px;
-      text-shadow: 0 0 20px var(--accent-glow);
-      position: relative;
-      display: inline-block;
-    }
-    
-    h1::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      right: 0;
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      border-radius: 3px;
-    }
-    
-    .lead {
-      margin: 0;
-      font-size: 20px;
-      line-height: 1.7;
-      opacity: 0.95;
-    }
-    
-    .accent-text {
-      color: var(--accent);
-      font-weight: bold;
-    }
-    
-    /* Skills Section */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin-top: 30px;
-    }
-    
-    .skill-item {
-      background: rgba(0, 30, 15, 0.3);
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid rgba(0, 255, 127, 0.1);
-      transition: all 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .skill-item:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent);
-      box-shadow: 0 10px 20px rgba(0, 255, 127, 0.1);
-    }
-    
-    .skill-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, transparent, rgba(0, 255, 127, 0.05), transparent);
-      transform: translateX(-100%);
-      transition: transform 0.6s;
-    }
-    
-    .skill-item:hover::before {
-      transform: translateX(100%);
-    }
-    
-    .skill-name {
-      font-size: 18px;
-      margin-bottom: 8px;
-      color: var(--accent);
-    }
-    
-    /* Gallery */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 30px 0;
-      max-width: 1200px;
-    }
-    
-    .thumb {
-      height: 220px;
-      border-radius: 16px;
-      overflow: hidden;
-      position: relative;
-      background: #111;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-      opacity: 0;
-      transform: translateY(40px) rotateX(10deg);
-    }
-    
-    .thumb.visible {
-      opacity: 1;
-      transform: translateY(0) rotateX(0);
-    }
-    
-    .thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-    
-    .thumb:hover {
-      transform: translateY(-10px) scale(1.05);
-      border-color: var(--accent);
-      box-shadow: 0 15px 30px rgba(0, 255, 127, 0.2);
-    }
-    
-    .thumb:hover img {
-      transform: scale(1.15);
-    }
-    
-    .overlay-note {
-      position: absolute;
-      left: 15px;
-      bottom: 15px;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
-      padding: 8px 15px;
-      border-radius: 10px;
-      font-size: 14px;
-      border: 1px solid rgba(0, 255, 127, 0.2);
-    }
-    
-    /* Footer */
-    footer {
-      position: fixed;
-      left: 20px;
-      bottom: 20px;
-      color: #7f7f7f;
-      font-size: 14px;
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: rgba(5, 15, 10, 0.8);
-      backdrop-filter: blur(10px);
-      padding: 16px;
-      border-radius: 16px;
-      border: 1px solid var(--card-border);
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    
-    .social-link {
-      color: var(--accent);
-      text-decoration: none;
-      transition: all 0.3s;
-      padding: 6px 0;
-      position: relative;
-    }
-    
-    .social-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 0;
-      height: 1px;
-      background: var(--accent);
-      transition: width 0.3s;
-    }
-    
-    .social-link:hover {
-      color: #fff;
-    }
-    
-    .social-link:hover::after {
-      width: 100%;
-    }
-    
-    /* Particles Info */
-    .particles-info {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(5, 15, 10, 0.7);
-      backdrop-filter: blur(10px);
-      padding: 12px 18px;
-      border-radius: 12px;
-      font-size: 13px;
-      border: 1px solid var(--card-border);
-      z-index: 50;
-      opacity: 0.7;
-      transition: opacity 0.3s;
-    }
-    
-    .particles-info:hover {
-      opacity: 1;
-    }
-    
-    /* Loading */
-    .loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      transition: opacity 0.5s, visibility 0.5s;
-    }
-    
-    .loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-    
-    .loader-text {
-      color: var(--accent);
-      font-size: 24px;
-      letter-spacing: 5px;
-    }
-    
-    /* Animations */
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    
-    .float {
-      animation: float 5s ease-in-out infinite;
-    }
-    
-    /* Scroll Indicator */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 30px;
-      right: 50%;
-      transform: translateX(50%);
-      color: var(--accent);
-      font-size: 14px;
-      opacity: 0.7;
-      z-index: 20;
-    }
-    
-    .mouse {
-      width: 26px;
-      height: 40px;
-      border: 2px solid var(--accent);
-      border-radius: 20px;
-      position: relative;
-      margin: 0 auto 10px;
-    }
-    
-    .wheel {
-      width: 4px;
-      height: 8px;
-      background: var(--accent);
-      border-radius: 2px;
-      position: absolute;
-      top: 8px;
-      right: 9px;
-      animation: scroll 2s infinite;
-    }
-    
-    @keyframes scroll {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(15px); opacity: 0; }
-    }
-    
-    /* ==================== */
-    /* FIXES FOR MOBILE */
-    /* ==================== */
-    
-    @media (max-width: 768px) {
-      .menu-container {
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        top: auto;
-        bottom: 15px;
-        left: 50%;
-        transform: translateX(-50%) !important;
-        width: auto;
-        max-width: 90%;
-        padding: 12px;
-        gap: 8px;
-        background: rgba(5, 15, 10, 0.95);
-      }
-      
-      .menu-btn {
-        width: 44px;
-        height: 44px;
-        font-size: 18px;
-        margin: 0 !important;
-      }
-      
-      .menu-btn .tooltip {
-        display: none;
-      }
-      
-      .page {
-        height: auto !important;
-        min-height: 100vh;
-        padding: 80px 15px 120px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        flex-direction: column;
-      }
-      
-      .card {
-        width: 100%;
-        max-width: 100% !important;
-        margin: 0 auto 40px;
-        padding: 25px 20px;
-        transform: translateY(0) !important;
-        opacity: 1 !important;
-      }
-      
-      .card.visible {
-        transform: translateY(0) !important;
-      }
-      
-      h1 {
-        font-size: 32px;
-        text-align: center;
-        width: 100%;
-      }
-      
-      h1::after {
-        right: 50%;
-        transform: translateX(50%);
-        width: 80%;
-      }
-      
-      .lead {
-        font-size: 18px;
-        text-align: center;
-      }
-      
-      .gallery {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 12px;
-        padding: 20px 0;
-      }
-      
-      .thumb {
-        height: 180px;
-        transform: translateY(0) !important;
-        opacity: 1 !important;
-      }
-      
-      .thumb.visible {
-        transform: translateY(0) !important;
-      }
-      
-      .skills-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-      
-      .skill-item {
-        padding: 15px;
-        margin: 0;
-      }
-      
-      footer {
-        position: relative;
-        left: 0;
-        bottom: 0;
-        margin: 20px auto;
-        width: calc(100% - 30px);
-        max-width: 500px;
-      }
-      
-      .social-links {
-        justify-content: center;
-        gap: 12px;
-      }
-      
-      .particles-info {
-        right: 50%;
-        transform: translateX(50%);
-        bottom: 80px;
-        font-size: 12px;
-        text-align: center;
-        width: auto;
-        min-width: 200px;
-      }
-      
-      .scroll-indicator {
-        display: none;
-      }
-      
-      #home .page {
-        padding-top: 40px;
-      }
-      
-      #gallery .page {
-        padding-top: 40px;
-      }
-      
-      #skills .page {
-        padding-top: 40px;
-      }
-      
-      #about .page {
-        padding-top: 40px;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .menu-container {
-        padding: 10px;
-        gap: 6px;
-      }
-      
-      .menu-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-      }
-      
-      .card {
-        padding: 20px 15px;
-        margin-bottom: 30px;
-      }
-      
-      h1 {
-        font-size: 28px;
-      }
-      
-      .lead {
-        font-size: 16px;
-      }
-      
-      .gallery {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-      
-      .thumb {
-        height: 150px;
-      }
-      
-      .overlay-note {
-        font-size: 12px;
-        padding: 5px 8px;
-        left: 8px;
-        bottom: 8px;
-      }
-      
-      .social-links {
-        gap: 10px;
-      }
-      
-      .social-link {
-        font-size: 13px;
-      }
-    }
-    
-    @media (max-width: 360px) {
-      .gallery {
-        grid-template-columns: 1fr;
-      }
-      
-      .thumb {
-        height: 180px;
-      }
-      
-      .menu-container {
-        max-width: 95%;
-      }
-      
-      .menu-btn {
-        width: 38px;
-        height: 38px;
-      }
-    }
-    
-    /* Fix for very tall mobile screens */
-    @media (min-height: 800px) and (max-width: 768px) {
-      .page {
-        min-height: 100vh;
-        padding: 60px 15px 100px;
-      }
-      
-      .card {
-        margin: auto;
-      }
-    }
-    
-    /* Fix for landscape mode on mobile */
-    @media (max-height: 500px) and (orientation: landscape) {
-      .menu-container {
-        flex-direction: column;
-        top: 50%;
-        bottom: auto;
-        left: 15px;
-        transform: translateY(-50%);
-        max-width: 60px;
-      }
-      
-      .page {
-        padding: 40px 15px 60px;
-      }
-      
-      .card {
-        padding: 15px;
-        margin-bottom: 20px;
-      }
-      
-      h1 {
-        font-size: 24px;
-      }
-      
-      .gallery {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agravix - Professional Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Loading Screen Styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        #loading-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .agravix-logo {
+            text-align: center;
+        }
+
+        .agravix-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52, #ff8e53, #ff6b6b);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite, pulse 2s ease-in-out infinite;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .loading-subtitle {
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            opacity: 0.8;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loading-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .hacker-text {
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            margin-top: 30px;
+            font-size: 1rem;
+            text-align: center;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-2px, 2px);
+            }
+            40% {
+                transform: translate(-2px, -2px);
+            }
+            60% {
+                transform: translate(2px, 2px);
+            }
+            80% {
+                transform: translate(2px, -2px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        .glitch {
+            animation: glitch 0.5s infinite;
+        }
+
+        /* Main Website Styles */
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --cyber-color: #9b59b6;
+            --linux-color: #f39c12;
+            --fullstack-color: #1abc9c;
+            --agravix-color: #ff6b6b;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+        }
+
+        .dark-theme {
+            --light-color: #121212;
+            --dark-color: #f8f9fa;
+            --gray-color: #adb5bd;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --primary-color: #27ae60;
+            --cyber-color: #8e44ad;
+            --fullstack-color: #16a085;
+            --agravix-color: #ff5252;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+            transition: var(--transition);
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        body.english {
+            font-family: 'Poppins', sans-serif;
+            direction: ltr;
+        }
+
+        body.english .rtl-text {
+            display: none;
+        }
+
+        body.english .ltr-text {
+            display: block;
+        }
+
+        .rtl-text {
+            display: block;
+        }
+
+        .ltr-text {
+            display: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--light-color);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transform: translateY(-100%);
+            animation: slideDown 0.8s ease 0.5s forwards;
+        }
+
+        @keyframes slideDown {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--agravix-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-left: 10px;
+        }
+
+        .logo-text {
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        body.english .nav-links {
+            flex-direction: row-reverse;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        body:not(.english) .nav-links li {
+            margin-right: 30px;
+            margin-left: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-links a:hover {
+            color: var(--agravix-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--agravix-color);
+            transition: var(--transition);
+        }
+
+        body:not(.english) .nav-links a::after {
+            right: 0;
+        }
+
+        body.english .nav-links a::after {
+            left: 0;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle, .lang-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease 0.3s forwards;
+        }
+
+        .theme-toggle:hover, .lang-toggle:hover {
+            color: var(--agravix-color);
+            background-color: rgba(255, 107, 107, 0.1);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(52, 152, 219, 0.1) 100%);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroAppear 1s ease 0.8s forwards;
+        }
+
+        @keyframes heroAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+        }
+
+        body.english .hero-content {
+            flex-direction: row-reverse;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 10px solid var(--agravix-color);
+            box-shadow: var(--shadow);
+            transform: scale(0.8);
+            opacity: 0;
+            animation: profileImage 1s ease 1.2s forwards;
+        }
+
+        @keyframes profileImage {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 .agravix-name {
+            color: var(--agravix-color);
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--gray-color);
+            margin-bottom: 30px;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease 1s forwards;
+        }
+
+        .highlight {
+            color: var(--cyber-color);
+            font-weight: 700;
+        }
+
+        .linux-highlight {
+            color: var(--linux-color);
+            font-weight: 700;
+        }
+
+        .fullstack-highlight {
+            color: var(--fullstack-color);
+            font-weight: 700;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: var(--agravix-color);
+            color: white;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            margin: 10px 10px 10px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease 1.2s forwards;
+        }
+
+        body.english .btn {
+            margin: 10px 0 10px 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--agravix-color);
+            color: var(--agravix-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--agravix-color);
+            color: white;
+        }
+
+        .btn-cyber {
+            background-color: var(--cyber-color);
+        }
+
+        .btn-cyber:hover {
+            background-color: #8e44ad;
+        }
+
+        .btn-fullstack {
+            background-color: var(--fullstack-color);
+        }
+
+        .btn-fullstack:hover {
+            background-color: #16a085;
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--agravix-color), var(--primary-color));
+            border-radius: 2px;
+        }
+
+        body:not(.english) .section-title h2::after {
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+        }
+
+        body.english .section-title h2::after {
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+        }
+
+        /* About Section */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        body.english .about-content {
+            flex-direction: row-reverse;
+        }
+
+        .about-text {
+            flex: 2;
+        }
+
+        .about-stats {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .stat {
+            background-color: var(--light-color);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .stat:hover {
+            transform: translateY(-10px);
+        }
+
+        .stat i {
+            font-size: 2.5rem;
+            color: var(--agravix-color);
+            margin-bottom: 15px;
+        }
+
+        .stat h3 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-category {
+            background-color: var(--light-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .skill-category h3 {
+            color: var(--agravix-color);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-item {
+            margin-bottom: 25px;
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .skill-bar {
+            height: 10px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            border-radius: 5px;
+            width: 0;
+            transition: width 1.5s ease;
+        }
+
+        .html-css-progress {
+            background: linear-gradient(to right, #e34c26, #264de4);
+        }
+
+        .js-progress {
+            background: linear-gradient(to right, #f0db4f, #323330);
+        }
+
+        .bootstrap-progress {
+            background: linear-gradient(to right, #563d7c, #6f42c1);
+        }
+
+        .python-progress {
+            background: linear-gradient(to right, #306998, #ffd43b);
+        }
+
+        .flask-progress {
+            background: linear-gradient(to right, #000000, #ffffff);
+        }
+
+        .linux-progress {
+            background: linear-gradient(to right, #fcc624, #000000);
+        }
+
+        .cyber-progress {
+            background: linear-gradient(to right, #9b59b6, #e74c3c);
+        }
+
+        .fullstack-progress {
+            background: linear-gradient(to right, #1abc9c, #3498db);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--agravix-color);
+            top: 0;
+            bottom: 0;
+            border-radius: 3px;
+        }
+
+        body:not(.english) .timeline::after {
+            right: 50%;
+            transform: translateX(50%);
+        }
+
+        body.english .timeline::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            margin-bottom: 50px;
+        }
+
+        body:not(.english) .timeline-item:nth-child(odd) {
+            right: 0;
+        }
+
+        body:not(.english) .timeline-item:nth-child(even) {
+            right: 50%;
+        }
+
+        body.english .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        body.english .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .timeline-content::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--light-color);
+            top: 15px;
+            transform: rotate(45deg);
+        }
+
+        body:not(.english) .timeline-item:nth-child(odd) .timeline-content::after {
+            left: -10px;
+        }
+
+        body:not(.english) .timeline-item:nth-child(even) .timeline-content::after {
+            right: -10px;
+        }
+
+        body.english .timeline-item:nth-child(odd) .timeline-content::after {
+            right: -10px;
+        }
+
+        body.english .timeline-item:nth-child(even) .timeline-content::after {
+            left: -10px;
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--agravix-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .timeline-date i {
+            margin: 0 8px;
+        }
+
+        /* Portfolio */
+        .portfolio-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+            gap: 15px;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            background-color: transparent;
+            border: 2px solid var(--agravix-color);
+            color: var(--agravix-color);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--agravix-color);
+            color: white;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .portfolio-item {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            position: relative;
+            height: 250px;
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        body.english .portfolio-overlay {
+            text-align: left;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        .portfolio-item:hover .portfolio-img {
+            transform: scale(1.1);
+        }
+
+        /* Certifications */
+        .certifications {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(52, 152, 219, 0.05) 100%);
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .cert-card {
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .cert-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .cert-icon {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .cert-ceh {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .cert-linux {
+            background: linear-gradient(135deg, #f39c12, #d35400);
+        }
+
+        .cert-security {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .cert-python {
+            background: linear-gradient(135deg, #306998, #ffd43b);
+        }
+
+        .cert-fullstack {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+        }
+
+        .cert-agravix {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        }
+
+        .cert-content {
+            padding: 20px;
+        }
+
+        .cert-content h3 {
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        /* Contact */
+        .contact-container {
+            display: flex;
+            gap: 50px;
+        }
+
+        body.english .contact-container {
+            flex-direction: row-reverse;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-form {
+            flex: 2;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        body.english .contact-item {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--agravix-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        body:not(.english) .contact-icon {
+            margin-left: 20px;
+        }
+
+        body.english .contact-icon {
+            margin-right: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        .form-control:focus {
+            border-color: var(--agravix-color);
+            outline: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            padding: 70px 0 30px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        body.english .footer-content {
+            flex-direction: row-reverse;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background-color: var(--agravix-color);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Skill Tags */
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .skill-tag {
+            background-color: var(--agravix-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .skill-tag.cyber {
+            background-color: var(--cyber-color);
+        }
+
+        .skill-tag.linux {
+            background-color: var(--linux-color);
+        }
+
+        .skill-tag.fullstack {
+            background-color: var(--fullstack-color);
+        }
+
+        /* Agravix Badge */
+        .agravix-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        body:not(.english) .agravix-badge {
+            margin-right: 10px;
+        }
+
+        body.english .agravix-badge {
+            margin-left: 10px;
+        }
+
+        /* Real Name */
+        .real-name {
+            font-size: 1.1rem;
+            color: var(--gray-color);
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content, .about-content, .contact-container {
+                flex-direction: column;
+            }
+            
+            body.english .hero-content, 
+            body.english .about-content, 
+            body.english .contact-container {
+                flex-direction: column;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .profile-img {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .timeline::after {
+                right: 30px !important;
+                left: auto !important;
+                transform: none !important;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-right: 70px;
+                padding-left: 0;
+            }
+            
+            body.english .timeline-item {
+                padding-left: 70px;
+                padding-right: 0;
+            }
+            
+            .timeline-item:nth-child(even) {
+                right: 0 !important;
+                left: 0 !important;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content::after,
+            .timeline-item:nth-child(even) .timeline-content::after {
+                left: -10px !important;
+                right: auto !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .agravix-text {
+                font-size: 3.5rem;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                width: 100%;
+                text-align: center;
+                padding: 30px 0;
+                box-shadow: var(--shadow);
+                transition: var(--transition);
+                z-index: 999;
+                flex-direction: column;
+                background-color: var(--light-color);
+            }
+            
+            body:not(.english) .nav-links {
+                right: -100%;
+            }
+            
+            body.english .nav-links {
+                left: -100%;
+            }
+            
+            .nav-links.active {
+                right: 0;
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0 !important;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .cert-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .agravix-text {
+                font-size: 2.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .profile-img {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .cert-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Loading Screen -->
-  <div class="loader" id="loader">
-    <div class="loader-text">AGRAVIX</div>
-  </div>
-
-  <!-- Navigation Menu -->
-  <div class="menu-container">
-    <button class="menu-btn active" data-target="home">
-      🏠
-      <span class="tooltip">خانه</span>
-    </button>
-    <button class="menu-btn" data-target="gallery">
-      🖼️
-      <span class="tooltip">گالری</span>
-    </button>
-    <button class="menu-btn" data-target="skills">
-      ⚡
-      <span class="tooltip">مهارت‌ها</span>
-    </button>
-    <button class="menu-btn" data-target="about">
-      👤
-      <span class="tooltip">درباره من</span>
-    </button>
-  </div>
-
-  <!-- Three.js Container -->
-  <div id="three-wrap"></div>
-
-  <!-- Main Content -->
-  <main>
-    <!-- Home Section -->
-    <section id="home" class="page">
-      <div class="card float">
-        <h1>AGRAVIX</h1>
-        <p class="lead"><span class="accent-text">برنامه‌نویس حرفه‌ای</span> و <span class="accent-text">هکر اخلاقی</span> با تمرکز بر امنیت سایبری، توسعه‌ی نرم‌افزار و نوآوری در تکنولوژی.</p>
-        <p style="margin-top: 20px; opacity: 0.9; line-height: 1.8;">
-          من Agravix هستم، عاشق حل مسائل پیچیده و کشف عمق دنیای دیجیتال. تخصص من در توسعه‌ی اپلیکیشن‌های امن، تحلیل سیستم‌ها و هک اخلاقی است.
-        </p>
-        <div class="scroll-indicator">
-          <div class="mouse">
-            <div class="wheel"></div>
-          </div>
-          <div>اسکرول کنید</div>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="agravix-logo">
+            <div class="agravix-text" id="agravix-text">AGRAVIX</div>
+            <div class="loading-subtitle" id="loading-subtitle">CYBERSECURITY & FULL STACK DEVELOPMENT</div>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loading-progress"></div>
+            </div>
+            <div class="hacker-text" id="hacker-text">Initializing system...</div>
         </div>
-      </div>
-    </section>
+    </div>
 
-    <!-- Gallery Section -->
-    <section id="gallery" class="page">
-      <div class="card">
-        <h2 style="margin-top: 0; color: var(--accent); text-align: center; font-size: 40px;">گالری تصاویر</h2>
-        <div class="gallery">
-          <div class="thumb"><img src="/images/aoae.png" alt="برنامه ای استرسر سایت"><div class="overlay-note">برنامه ای استرسر سایت</div></div>
-          <div class="thumb"><img src="/images/agrasek.png" alt="برنامه ای اسخراج اطلاعات"><div class="overlay-note">برنامه استخراج اطلاعات</div></div>
-          <div class="thumb"><img src="/images/agraseklogin.png" alt="لاگین برنامه استخراج اطلاعات"><div class="overlay-note">لاگین برنامه استخراج اطلاعات</div></div>
-          <div class="thumb"><img src="/images/ag6.png" alt="سایت اس ام اس بمبر"><div class="overlay-note">سایت اس ام اس بمبر</div></div>
-          <div class="thumb"><img src="/images/turkcoder.png" alt="ترک کدر"><div class="overlay-note">تورک‌کدر</div></div>
-          <div class="thumb"><img src="/images/wificracker.png" alt="برنامه ای استخراج پسورد وای فای "><div class="overlay-note">برنامه ای استخراج پسورد وای فای </div></div>
+    <!-- Main Website Content -->
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-user-secret"></i>
+                    <span class="logo-text">Agravix</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home" class="rtl-text">خانه</a><a href="#home" class="ltr-text">Home</a></li>
+                    <li><a href="#about" class="rtl-text">درباره من</a><a href="#about" class="ltr-text">About</a></li>
+                    <li><a href="#skills" class="rtl-text">مهارت‌ها</a><a href="#skills" class="ltr-text">Skills</a></li>
+                    <li><a href="#experience" class="rtl-text">سوابق</a><a href="#experience" class="ltr-text">Experience</a></li>
+                    <li><a href="#portfolio" class="rtl-text">نمونه کارها</a><a href="#portfolio" class="ltr-text">Portfolio</a></li>
+                    <li><a href="#certifications" class="rtl-text">گواهینامه‌ها</a><a href="#certifications" class="ltr-text">Certifications</a></li>
+                    <li><a href="#contact" class="rtl-text">تماس با من</a><a href="#contact" class="ltr-text">Contact</a></li>
+                </ul>
+                <div class="header-controls">
+                    <button class="lang-toggle" id="langToggle" title="تغییر زبان / Change Language">
+                        <i class="fas fa-language"></i>
+                    </button>
+                    <button class="theme-toggle" id="themeToggle" title="تغییر تم / Change Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="mobile-menu" id="mobileMenu">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                </div>
+            </nav>
         </div>
-      </div>
-    </section>
+    </header>
 
-    <!-- Skills Section -->
-    <section id="skills" class="page">
-      <div class="card">
-        <h2 style="color: var(--accent); margin-bottom: 30px; text-align: center;">مهارت‌های تخصصی</h2>
-        <div class="skills-grid">
-          <div class="skill-item">
-            <div class="skill-name">⚡ پایتون پیشرفته</div>
-            <div>توسعه‌ی ابزارهای امنیتی، اتوماسیون و اسکریپت‌نویسی</div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-name">🛡️ امنیت سایبری</div>
-            <div>تست نفوذ، آنالیز آسیب‌پذیری، هک اخلاقی</div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-name">🌐 توسعه فول‌استک</div>
-            <div>Frontend & Backend، دیتابیس، API</div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-name">🔍 تحلیل شبکه</div>
-            <div>شناسایی تهدیدات، مانیتورینگ، تشخیص نفوذ</div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-name">🧠 هوش مصنوعی</div>
-            <div>یادگیری ماشین، پردازش زبان طبیعی</div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-name">🔧 DevOps</div>
-            <div>CI/CD، داکر، کوبرنتیز، اتوماسیون</div>
-          </div>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>
+                        <span class="rtl-text">سلام، من <span class="agravix-name">Agravix</span> هستم</span>
+                        <span class="ltr-text">Hi, I'm <span class="agravix-name">Agravix</span></span>
+                    </h1>
+                    <div class="real-name rtl-text">(امیرحسین جعفری اصل)</div>
+                    <div class="real-name ltr-text">(Amirhossein Jafari Asl)</div>
+                    
+                    <p class="rtl-text">یک <span class="highlight">هکر اخلاقی</span>، <span class="linux-highlight">متخصص لینوکس</span> و <span class="fullstack-highlight">توسعه‌دهنده Full Stack</span> با تخصص در امنیت سایبری و توسعه وب.</p>
+                    <p class="ltr-text">An <span class="highlight">Ethical Hacker</span>, <span class="linux-highlight">Linux Expert</span> and <span class="fullstack-highlight">Full Stack Developer</span> specializing in cybersecurity and web development.</p>
+                    
+                    <p class="rtl-text">تجربه من شامل تست نفوذ، امنیت شبکه، توسعه Full Stack با Python Flask و مدیریت سرورهای لینوکس می‌باشد.</p>
+                    <p class="ltr-text">My experience includes penetration testing, network security, Full Stack development with Python Flask, and Linux server management.</p>
+                    
+                    <div class="skill-tags">
+                        <span class="skill-tag rtl-text">هک اخلاقی</span><span class="skill-tag ltr-text">Ethical Hacking</span>
+                        <span class="skill-tag linux rtl-text">لینوکس</span><span class="skill-tag linux ltr-text">Linux</span>
+                        <span class="skill-tag fullstack rtl-text">Full Stack</span><span class="skill-tag fullstack ltr-text">Full Stack</span>
+                        <span class="skill-tag cyber rtl-text">امنیت سایبری</span><span class="skill-tag cyber ltr-text">Cybersecurity</span>
+                        <span class="skill-tag rtl-text">Python Flask</span><span class="skill-tag ltr-text">Python Flask</span>
+                        <span class="skill-tag rtl-text">JavaScript</span><span class="skill-tag ltr-text">JavaScript</span>
+                    </div>
+                    
+                    <div class="hero-buttons">
+                        <a href="#portfolio" class="btn rtl-text">مشاهده نمونه کارها</a>
+                        <a href="#portfolio" class="btn ltr-text">View Portfolio</a>
+                        <a href="#contact" class="btn btn-outline rtl-text">تماس با من</a>
+                        <a href="#contact" class="btn btn-outline ltr-text">Contact Me</a>
+                        <a href="#certifications" class="btn btn-cyber rtl-text">گواهینامه‌ها</a>
+                        <a href="#certifications" class="btn btn-cyber ltr-text">Certifications</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="images/profile.jpg" alt="Agravix Profile Picture" class="profile-img" id="profileImage">
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="page">
-      <div class="card">
-        <h2 style="color: var(--accent); margin-bottom: 20px; text-align: center;">درباره من</h2>
-        <p style="line-height: 1.9; margin-bottom: 25px; font-size: 18px;">
-          من <span class="accent-text">Agravix</span> هستم، یک برنامه‌نویس و محقق امنیت سایبری که بیش از ۵ سال در این زمینه فعالیت دارم. 
-          علاقه‌ی اصلی من کشف نقاط ضعف سیستم‌ها و تقویت آن‌ها در برابر تهدیدات سایبری است.
-        </p>
-        <p style="line-height: 1.9; margin-bottom: 25px; font-size: 18px;">
-          به عنوان یک هکر اخلاقی، با سازمان‌ها و شرکت‌های مختلف همکاری کرده‌ام تا زیرساخت‌های آن‌ها را ارزیابی و ایمن کنم. 
-          همچنین در توسعه‌ی نرم‌افزارهای امنیتی و ابزارهای متن‌باز مشارکت دارم.
-        </p>
-        <p style="margin-top: 30px; opacity: 0.9; font-size: 16px;">
-          <strong>برچسب‌ها:</strong> 
-          <span style="color: var(--accent);">#هک_اخلاقی</span> 
-          <span style="color: var(--accent);">#امنیت_سایبری</span> 
-          <span style="color: var(--accent);">#توسعه_نرم‌افزار</span> 
-          <span style="color: var(--accent);">#پایتون</span> 
-          <span style="color: var(--accent);">#فول_استک</span>
-        </p>
-      </div>
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="rtl-text">درباره من</h2>
+                <h2 class="ltr-text">About Me</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="rtl-text">من <strong><span class="agravix-badge">Agravix</span></strong> (امیرحسین جعفری اصل)، یک توسعه‌دهنده Full Stack و متخصص امنیت سایبری با بیش از ۴ سال تجربه حرفه‌ای هستم. تخصص اصلی من در حوزه‌های زیر می‌باشد:</p>
+                    <p class="ltr-text">I am <strong><span class="agravix-badge">Agravix</span></strong> (Amirhossein Jafari Asl), a Full Stack developer and cybersecurity specialist with over 4 years of professional experience. My main expertise includes:</p>
+                    
+                    <ul class="rtl-text" style="margin-right: 20px; margin-bottom: 20px;">
+                        <li>توسعه Full Stack با Python Flask و Front-End مدرن</li>
+                        <li>هک اخلاقی و تست نفوذ وب‌سایت‌ها و اپلیکیشن‌ها</li>
+                        <li>مدیریت و پیکربندی سرورهای لینوکس</li>
+                        <li>امنیت شبکه و سیستم‌های اطلاعاتی</li>
+                        <li>طراحی و پیاده‌سازی راه‌حل‌های امنیتی جامع</li>
+                    </ul>
+                    
+                    <ul class="ltr-text" style="margin-left: 20px; margin-bottom: 20px;">
+                        <li>Full Stack development with Python Flask and modern Front-End</li>
+                        <li>Ethical hacking and penetration testing of websites and applications</li>
+                        <li>Management and configuration of Linux servers</li>
+                        <li>Network security and information systems</li>
+                        <li>Design and implementation of comprehensive security solutions</li>
+                    </ul>
+                    
+                    <p class="rtl-text">من به ایجاد سیستم‌های نرم‌افزاری امن، مقیاس‌پذیر و کارا اعتقاد دارم و همیشه در حال یادگیری تکنولوژی‌های جدید در حوزه امنیت و توسعه هستم.</p>
+                    <p class="ltr-text">I believe in creating secure, scalable, and efficient software systems and am always learning new technologies in the field of security and development.</p>
+                    
+                    <div class="hero-buttons">
+                        <a href="#" class="btn" id="downloadResume">
+                            <i class="fas fa-download"></i> <span class="rtl-text">دانلود رزومه PDF</span><span class="ltr-text">Download PDF Resume</span>
+                        </a>
+                        <a href="#certifications" class="btn btn-fullstack">
+                            <i class="fas fa-certificate"></i> <span class="rtl-text">گواهینامه Full Stack</span><span class="ltr-text">Full Stack Certificate</span>
+                        </a>
+                        <a href="#contact" class="btn btn-cyber">
+                            <i class="fas fa-shield-alt"></i> <span class="rtl-text">مشاوره امنیتی</span><span class="ltr-text">Security Consultation</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="about-stats">
+                    <div class="stat">
+                        <i class="fas fa-user-shield"></i>
+                        <h3>۴+</h3>
+                        <p class="rtl-text">سال تجربه امنیت سایبری</p>
+                        <p class="ltr-text">Years Cybersecurity Experience</p>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-code"></i>
+                        <h3>۳+</h3>
+                        <p class="rtl-text">سال توسعه Full Stack</p>
+                        <p class="ltr-text">Years Full Stack Development</p>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-bug"></i>
+                        <h3>۲۰۰+</h3>
+                        <p class="rtl-text">باگ امنیتی کشف شده</p>
+                        <p class="ltr-text">Security Bugs Discovered</p>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-server"></i>
+                        <h3>۵۰+</h3>
+                        <p class="rtl-text">سرور لینوکس مدیریت شده</p>
+                        <p class="ltr-text">Linux Servers Managed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-  </main>
 
-  <!-- Footer -->
-  <footer>
-    <span style="color: var(--accent); font-size: 16px; margin-bottom: 5px;">شبکه‌های اجتماعی</span>
-    <div class="social-links">
-      <a href="https://instagram.com/agravix" target="_blank" class="social-link">اینستاگرام</a>
-      <a href="https://youtube.com/agravix" target="_blank" class="social-link">یوتیوب</a>
-      <a href="https://t.me/turkcodder" target="_blank" class="social-link">تلگرام</a>
-      <a href="https://turkcoder.ir" target="_blank" class="social-link">سایت ترک‌کدر</a>
-      <a href="https://github.com/agravix" target="_blank" class="social-link">گیت‌هاب</a>
-      <a href="https://linkedin.com/in/agravix" target="_blank" class="social-link">لینکدین</a>
-    </div>
-  </footer>
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="rtl-text">مهارت‌های تخصصی</h2>
+                <h2 class="ltr-text">Technical Skills</h2>
+            </div>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3><i class="fab fa-html5"></i> <span class="rtl-text">توسعه Front-End</span><span class="ltr-text">Front-End Development</span></h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span>HTML5 & CSS3</span>
+                            <span>۹۷%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress html-css-progress" data-width="97"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span>JavaScript (ES6+)</span>
+                            <span>۹۲%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress js-progress" data-width="92"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span>Bootstrap 5</span>
+                            <span>۹۵%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress bootstrap-progress" data-width="95"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fab fa-python"></i> <span class="rtl-text">توسعه Back-End & Full Stack</span><span class="ltr-text">Back-End & Full Stack Development</span></h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span>Python</span>
+                            <span>۹۴%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress python-progress" data-width="94"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span>Flask Framework</span>
+                            <span>۹۱%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress flask-progress" data-width="91"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="rtl-text">توسعه Full Stack</span><span class="ltr-text">Full Stack Development</span>
+                            <span>۹۳%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress fullstack-progress" data-width="93"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fab fa-linux"></i> <span class="rtl-text">لینوکس و سرور</span><span class="ltr-text">Linux & Server</span></h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="rtl-text">مدیریت لینوکس</span><span class="ltr-text">Linux Administration</span>
+                            <span>۹۶%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress linux-progress" data-width="96"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="rtl-text">مدیریت سرور لینوکس</span><span class="ltr-text">Linux Server Management</span>
+                            <span>۹۴%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress linux-progress" data-width="94"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span>Docker & Containerization</span>
+                            <span>۸۸%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress linux-progress" data-width="88"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fas fa-shield-alt"></i> <span class="rtl-text">امنیت سایبری</span><span class="ltr-text">Cybersecurity</span></h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="rtl-text">هک اخلاقی</span><span class="ltr-text">Ethical Hacking</span>
+                            <span>۹۵%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress cyber-progress" data-width="95"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="rtl-text">تست نفوذ وب</span><span class="ltr-text">Web Penetration Testing</span>
+                            <span>۹۳%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress cyber-progress" data-width="93"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="rtl-text">امنیت شبکه</span><span class="ltr-text">Network Security</span>
+                            <span>۹۱%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress cyber-progress" data-width="91"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- Particles Info -->
-  <div class="particles-info">
-    ✨ <span id="particle-count">0</span> ذره سه‌بعدی فعال
-  </div>
+    <!-- Experience & Education -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="rtl-text">سوابق کاری و تحصیلی</h2>
+                <h2 class="ltr-text">Work Experience & Education</h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> <span class="rtl-text">۱۴۰۰ - اکنون</span><span class="ltr-text">2021 - Present</span>
+                        </div>
+                        <h3 class="rtl-text">متخصص امنیت سایبری و توسعه‌دهنده Full Stack</h3>
+                        <h3 class="ltr-text">Cybersecurity Specialist & Full Stack Developer</h3>
+                        <h4 class="rtl-text">شرکت امنیت سایبری آریا</h4>
+                        <h4 class="ltr-text">Arya Cybersecurity Company</h4>
+                        <p class="rtl-text">انجام تست نفوذ و ارزیابی امنیتی. توسعه اپلیکیشن‌های Full Stack با Python Flask. مدیریت سرورهای لینوکس و پیاده‌سازی راه‌حل‌های امنیتی.</p>
+                        <p class="ltr-text">Performing penetration testing and security assessments. Developing Full Stack applications with Python Flask. Managing Linux servers and implementing security solutions.</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Full Stack</span>
+                            <span class="skill-tag cyber rtl-text">امنیت سایبری</span><span class="skill-tag cyber ltr-text">Cybersecurity</span>
+                            <span class="skill-tag linux">Linux</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> <span class="rtl-text">۱۳۹۸ - ۱۴۰۰</span><span class="ltr-text">2019 - 2021</span>
+                        </div>
+                        <h3 class="rtl-text">توسعه‌دهنده Full Stack و مدیر سرور</h3>
+                        <h3 class="ltr-text">Full Stack Developer & Server Manager</h3>
+                        <h4 class="rtl-text">استارت‌آپ تکنولوژی داده</h4>
+                        <h4 class="ltr-text">Data Technology Startup</h4>
+                        <p class="rtl-text">توسعه اپلیکیشن‌های وب با Flask و Front-End مدرن. مدیریت و نگهداری سرورهای لینوکس. پیاده‌سازی امنیت و مانیتورینگ سرورها.</p>
+                        <p class="ltr-text">Developing web applications with Flask and modern Front-End. Managing and maintaining Linux servers. Implementing security and server monitoring.</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Python Flask</span>
+                            <span class="skill-tag">Front-End</span>
+                            <span class="skill-tag linux rtl-text">سرور لینوکس</span><span class="skill-tag linux ltr-text">Linux Server</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> <span class="rtl-text">۱۳۹۶ - ۱۳۹۸</span><span class="ltr-text">2017 - 2019</span>
+                        </div>
+                        <h3 class="rtl-text">توسعه‌دهنده Front-End و پشتیبان فنی</h3>
+                        <h3 class="ltr-text">Front-End Developer & Technical Support</h3>
+                        <h4 class="rtl-text">شرکت طراحی وب ایرانیان</h4>
+                        <h4 class="ltr-text">Iranian Web Design Company</h4>
+                        <p class="rtl-text">توسعه وب‌سایت‌های ریسپانسیو با HTML, CSS, JavaScript و Bootstrap. پشتیبانی فنی سرورهای لینوکس. آموزش لینوکس به تیم فنی.</p>
+                        <p class="ltr-text">Developing responsive websites with HTML, CSS, JavaScript, and Bootstrap. Technical support for Linux servers. Linux training for technical team.</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">HTML/CSS</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Bootstrap</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> <span class="rtl-text">۱۳۹۲ - ۱۳۹۶</span><span class="ltr-text">2013 - 2017</span>
+                        </div>
+                        <h3 class="rtl-text">کارشناسی مهندسی کامپیوتر - نرم‌افزار</h3>
+                        <h3 class="ltr-text">Bachelor of Computer Engineering - Software</h3>
+                        <h4 class="rtl-text">دانشگاه صنعتی شریف</h4>
+                        <h4 class="ltr-text">Sharif University of Technology</h4>
+                        <p class="rtl-text">فارغ‌التحصیل با رتبه ممتاز. موضوع پایان‌نامه: "طراحی و پیاده‌سازی یک فریم‌ورک امن برای برنامه‌های تحت وب با معماری Full Stack"</p>
+                        <p class="ltr-text">Graduated with honors. Thesis topic: "Design and implementation of a secure framework for web applications with Full Stack architecture"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- Three.js Libraries -->
-  <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
-  <script src="https://unpkg.com/three@0.158.0/examples/js/controls/OrbitControls.js"></script>
-  
-  <!-- Main Script -->
-  <script>
-    // Wait for page to load
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('loader').classList.add('hidden');
-      }, 1000);
-    });
+    <!-- Portfolio -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="rtl-text">نمونه کارها و پروژه‌ها</h2>
+                <h2 class="ltr-text">Portfolio & Projects</h2>
+            </div>
+            <div class="portfolio-filter">
+                <button class="filter-btn active" data-filter="all"><span class="rtl-text">همه</span><span class="ltr-text">All</span></button>
+                <button class="filter-btn" data-filter="security"><span class="rtl-text">امنیتی</span><span class="ltr-text">Security</span></button>
+                <button class="filter-btn" data-filter="web"><span class="rtl-text">توسعه وب</span><span class="ltr-text">Web Dev</span></button>
+                <button class="filter-btn" data-filter="fullstack"><span class="rtl-text">Full Stack</span><span class="ltr-text">Full Stack</span></button>
+                <button class="filter-btn" data-filter="linux"><span class="rtl-text">لینوکس</span><span class="ltr-text">Linux</span></button>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item" data-category="security">
+                    <img src="images/agrasek.png" alt="Security Monitoring System" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="rtl-text">سیستم استخراج اطلاعات</h3>
+                        <h3 class="ltr-text">Information extraction system</h3>
+                        <p class="rtl-text">سیستم</p>
+                        <p class="ltr-text">system</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="fullstack">
+                    <img src="images/aoae.png" alt="Project Management Application" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="rtl-text">برنامه ای استرسر</h3>
+                        <h3 class="ltr-text">Stresser program</h3>
+                        <p class="rtl-text">توسعه Python linux</p>
+                        <p class="ltr-text">Develop Python linux</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="linux">
+                    <img src="images/wificracker.png" alt="Linux Server Automation" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="rtl-text">برنامه ای استخراج رمز وای فای </h3>
+                        <h3 class="ltr-text">A program to extract WiFi passwords</h3>
+                        <p class="rtl-text">توسعه Python linux</p>
+                        <p class="ltr-text">Develop Python linux</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="security">
+                    <img src="images/turkcoder.png" alt="Web Penetration Testing Tool" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="rtl-text">سایت تورک کدر </h3>
+                        <h3 class="ltr-text">Turk Coder</h3>
+                        <p class="rtl-text">توسعه شده با html css javascript python flask frimwork</p>
+                        <p class="ltr-text">Developed with html css javascript python flask framework</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="fullstack">
+                    <img src="images/ag6.png" alt="E-commerce Website" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="rtl-text">وب‌سایت اس ام اس بمبر</h3>
+                        <h3 class="ltr-text">smsbomber Website</h3>
+                        <p class="rtl-text">توسعه Full Stack با Flask و Bootstrap</p>
+                        <p class="ltr-text">Full Stack development with Flask and Bootstrap</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="web">
+                    <img src="images/instabf.png" alt="Management Dashboard" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="rtl-text">اینستاگرام بروت فورس</h3>
+                        <h3 class="ltr-text">Instagram Brute Force</h3>
+                        <p class="rtl-text">با پایتون و لینوکس </p>
+                        <p class="ltr-text">Python with linux</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    // Navigation
-    const menuButtons = document.querySelectorAll('.menu-btn');
-    const sections = document.querySelectorAll('.page');
-    
-    menuButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const targetId = button.getAttribute('data-target');
+    <!-- Certifications -->
+    <section id="certifications" class="certifications">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="rtl-text">گواهینامه‌های تخصصی</h2>
+                <h2 class="ltr-text">Professional Certifications</h2>
+            </div>
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <div class="cert-icon cert-ceh">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="cert-content">
+                        <h3>CEH - Certified Ethical Hacker</h3>
+                        <p class="rtl-text">گواهینامه هکر اخلاقی معتبر از EC-Council</p>
+                        <p class="ltr-text">Certified Ethical Hacker from EC-Council</p>
+                        <p class="timeline-date"><i class="fas fa-calendar-alt"></i> <span class="rtl-text">سال اخذ: ۱۴۰۰</span><span class="ltr-text">Year: 2021</span></p>
+                    </div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon cert-fullstack">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <div class="cert-content">
+                        <h3>Full Stack Web Developer</h3>
+                        <p class="rtl-text">گواهینامه توسعه‌دهنده Full Stack از دانشگاه تهران</p>
+                        <p class="ltr-text">Full Stack Web Developer from Tehran University</p>
+                        <p class="timeline-date"><i class="fas fa-calendar-alt"></i> <span class="rtl-text">سال اخذ: ۱۳۹۹</span><span class="ltr-text">Year: 2020</span></p>
+                    </div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon cert-linux">
+                        <i class="fab fa-linux"></i>
+                    </div>
+                    <div class="cert-content">
+                        <h3>Linux Professional Institute Certification</h3>
+                        <p class="rtl-text">گواهینامه حرفه‌ای مدیریت لینوکس از LPI</p>
+                        <p class="ltr-text">Linux Professional Institute Certification from LPI</p>
+                        <p class="timeline-date"><i class="fas fa-calendar-alt"></i> <span class="rtl-text">سال اخذ: ۱۳۹۹</span><span class="ltr-text">Year: 2020</span></p>
+                    </div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon cert-security">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="cert-content">
+                        <h3>CompTIA Security+</h3>
+                        <p class="rtl-text">گواهینامه امنیت سایبری از CompTIA</p>
+                        <p class="ltr-text">Cybersecurity certification from CompTIA</p>
+                        <p class="timeline-date"><i class="fas fa-calendar-alt"></i> <span class="rtl-text">سال اخذ: ۱۳۹۸</span><span class="ltr-text">Year: 2019</span></p>
+                    </div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon cert-python">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <div class="cert-content">
+                        <h3>Python for Cybersecurity & Web Development</h3>
+                        <p class="rtl-text">گواهینامه پیشرفته پایتون برای امنیت و توسعه وب</p>
+                        <p class="ltr-text">Advanced Python for Cybersecurity & Web Development</p>
+                        <p class="timeline-date"><i class="fas fa-calendar-alt"></i> <span class="rtl-text">سال اخذ: ۱۳۹۹</span><span class="ltr-text">Year: 2020</span></p>
+                    </div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon cert-agravix">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <div class="cert-content">
+                        <h3>Agravix Security Certification</h3>
+                        <p class="rtl-text">گواهینامه تخصصی امنیت سایبری Agravix</p>
+                        <p class="ltr-text">Specialized Agravix Cybersecurity Certification</p>
+                        <p class="timeline-date"><i class="fas fa-calendar-alt"></i> <span class="rtl-text">سال اخذ: ۱۴۰۱</span><span class="ltr-text">Year: 2022</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="rtl-text">تماس با من</h2>
+                <h2 class="ltr-text">Contact Me</h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-user-secret"></i>
+                        </div>
+                        <div>
+                            <h3 class="rtl-text">نام مستعار</h3>
+                            <h3 class="ltr-text">Alias</h3>
+                            <p><span class="agravix-badge">Agravix</span></p>
+                            <p class="real-name rtl-text">(امیرحسین جعفری اصل)</p>
+                            <p class="real-name ltr-text">(Amirhossein Jafari Asl)</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h3 class="rtl-text">موقعیت</h3>
+                            <h3 class="ltr-text">Location</h3>
+                            <p class="rtl-text">تهران، ایران</p>
+                            <p class="ltr-text">Tehran, Iran</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h3 class="rtl-text">تلفن</h3>
+                            <h3 class="ltr-text">Phone</h3>
+                            <p>+۹۸ ۹۱۲ XXX XXXX</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h3 class="rtl-text">ایمیل</h3>
+                            <h3 class="ltr-text">Email</h3>
+                            <p>agravix@example.com</p>
+                        </div>
+                    </div>
+                    <div class="skill-tags" style="margin-top: 20px;">
+                        <span class="skill-tag rtl-text">هک اخلاقی</span><span class="skill-tag ltr-text">Ethical Hacking</span>
+                        <span class="skill-tag linux rtl-text">لینوکس</span><span class="skill-tag linux ltr-text">Linux</span>
+                        <span class="skill-tag fullstack">Full Stack</span>
+                        <span class="skill-tag">Python Flask</span>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" class="form-control rtl-text" placeholder="نام و نام خانوادگی" required>
+                            <input type="text" class="form-control ltr-text" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control rtl-text" placeholder="آدرس ایمیل" required>
+                            <input type="email" class="form-control ltr-text" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control rtl-text" required>
+                                <option value="">نوع درخواست</option>
+                                <option value="security">مشاوره امنیتی</option>
+                                <option value="pentest">تست نفوذ</option>
+                                <option value="development">توسعه Full Stack</option>
+                                <option value="server">مدیریت سرور لینوکس</option>
+                                <option value="other">سایر</option>
+                            </select>
+                            <select class="form-control ltr-text" required>
+                                <option value="">Request Type</option>
+                                <option value="security">Security Consultation</option>
+                                <option value="pentest">Penetration Testing</option>
+                                <option value="development">Full Stack Development</option>
+                                <option value="server">Linux Server Management</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control rtl-text" rows="5" placeholder="پیام شما" required></textarea>
+                            <textarea class="form-control ltr-text" rows="5" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> <span class="rtl-text">ارسال پیام</span><span class="ltr-text">Send Message</span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <i class="fas fa-user-secret"></i> Agravix
+                    </div>
+                    <p class="rtl-text">متخصص امنیت سایبری، هکر اخلاقی و توسعه‌دهنده Full Stack با تخصص در لینوکس و Python Flask. متعهد به ایجاد دنیای دیجیتال امن‌تر.</p>
+                    <p class="ltr-text">Cybersecurity specialist, ethical hacker and Full Stack developer with expertise in Linux and Python Flask. Committed to creating a safer digital world.</p>
+                    <p class="real-name" style="color: rgba(255,255,255,0.7); margin-top: 10px;">Amirhossein Jafari Asl</p>
+                </div>
+                <div class="footer-links">
+                    <h3 class="rtl-text">خدمات تخصصی</h3>
+                    <h3 class="ltr-text">Specialized Services</h3>
+                    <ul class="rtl-text">
+                        <li><a href="#skills">تست نفوذ و ارزیابی امنیتی</a></li>
+                        <li><a href="#skills">توسعه Full Stack</a></li>
+                        <li><a href="#skills">مدیریت سرور لینوکس</a></li>
+                        <li><a href="#skills">مشاوره امنیت سایبری</a></li>
+                        <li><a href="#skills">آموزش تخصصی</a></li>
+                    </ul>
+                    <ul class="ltr-text">
+                        <li><a href="#skills">Penetration Testing & Security Assessment</a></li>
+                        <li><a href="#skills">Full Stack Development</a></li>
+                        <li><a href="#skills">Linux Server Management</a></li>
+                        <li><a href="#skills">Cybersecurity Consultation</a></li>
+                        <li><a href="#skills">Specialized Training</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h3 class="rtl-text">خبرنامه تخصصی</h3>
+                    <h3 class="ltr-text">Specialized Newsletter</h3>
+                    <p class="rtl-text">دریافت آخرین مطالب امنیتی و توسعه‌ای در ایمیل خود</p>
+                    <p class="ltr-text">Receive the latest security and development content in your email</p>
+                    <div class="form-group">
+                        <input type="email" class="form-control rtl-text" placeholder="ایمیل شما">
+                        <input type="email" class="form-control ltr-text" placeholder="Your Email">
+                        <button class="btn" style="margin-top: 10px; width: 100%;"><span class="rtl-text">اشتراک</span><span class="ltr-text">Subscribe</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© ۱۴۰۲ / 2023 All rights reserved. Designed & Developed by <span class="agravix-badge" style="font-size: 0.8rem; padding: 3px 10px;">Agravix</span></p>
+                <p style="margin-top: 10px; font-size: 0.9rem;" class="rtl-text">این وب‌سایت صرفاً برای نمایش رزومه و نمونه کارها می‌باشد.</p>
+                <p style="margin-top: 10px; font-size: 0.9rem;" class="ltr-text">This website is only for displaying resume and portfolio.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Loading Screen Animation
+        const loadingScreen = document.getElementById('loading-screen');
+        const loadingProgress = document.getElementById('loading-progress');
+        const agravixText = document.getElementById('agravix-text');
+        const loadingSubtitle = document.getElementById('loading-subtitle');
+        const hackerText = document.getElementById('hacker-text');
         
-        // Update active button
-        menuButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
+        // Hacker-like messages
+        const hackerMessages = [
+            "Initializing system...",
+            "Loading security protocols...",
+            "Establishing secure connection...",
+            "Encrypting data...",
+            "Booting Agravix OS...",
+            "System ready!"
+        ];
         
-        // Scroll to section
-        document.getElementById(targetId).scrollIntoView({
-          behavior: 'smooth'
-        });
-      });
-    });
-
-    // Intersection Observer for animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          
-          // Update active menu button based on visible section
-          const id = entry.target.id;
-          menuButtons.forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.getAttribute('data-target') === id) {
-              btn.classList.add('active');
+        let progress = 0;
+        let messageIndex = 0;
+        
+        // Simulate loading progress
+        const loadingInterval = setInterval(() => {
+            progress += Math.random() * 10;
+            
+            if (progress > 100) {
+                progress = 100;
+                clearInterval(loadingInterval);
+                
+                // Final loading steps
+                setTimeout(() => {
+                    hackerText.textContent = hackerMessages[5];
+                    
+                    // Add glitch effect to AGRAVIX text
+                    agravixText.classList.add('glitch');
+                    
+                    setTimeout(() => {
+                        // Fade out loading screen
+                        loadingScreen.classList.add('fade-out');
+                        
+                        // Start main website animations
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            document.body.style.animation = 'fadeIn 1s ease forwards';
+                            
+                            // Initialize scroll animations
+                            initScrollAnimations();
+                        }, 800);
+                    }, 1000);
+                }, 500);
+            } else {
+                loadingProgress.style.width = progress + '%';
+                
+                // Update hacker text every 20% progress
+                if (progress % 20 < 10 && progress > messageIndex * 20) {
+                    hackerText.textContent = hackerMessages[messageIndex];
+                    messageIndex = Math.min(messageIndex + 1, hackerMessages.length - 1);
+                }
             }
-          });
-        }
-      });
-    }, { threshold: 0.2 });
-
-    // Observe elements
-    document.querySelectorAll('.card, .thumb, .skill-item').forEach(el => {
-      observer.observe(el);
-    });
-
-    // Enhanced Three.js Scene
-    const container = document.getElementById('three-wrap');
-    
-    // Scene setup
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x000000, 0.0015);
-    
-    // Camera
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
-    camera.position.set(0, 10, 80);
-    
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ 
-      antialias: true, 
-      alpha: true,
-      powerPreference: "high-performance"
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    container.appendChild(renderer.domElement);
-    
-    // OrbitControls
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.enablePan = false;
-    controls.enableZoom = true;
-    controls.minDistance = 30;
-    controls.maxDistance = 200;
-    controls.maxPolarAngle = Math.PI / 2;
-    
-    // Enhanced Rain Particles
-    const rainCount = 15000;
-    const rainGeo = new THREE.BufferGeometry();
-    const rainPositions = new Float32Array(rainCount * 3);
-    const rainSpeeds = new Float32Array(rainCount);
-    const rainSizes = new Float32Array(rainCount);
-    
-    for (let i = 0; i < rainCount; i++) {
-      rainPositions[i * 3 + 0] = (Math.random() - 0.5) * 300;
-      rainPositions[i * 3 + 1] = Math.random() * 500 - 200;
-      rainPositions[i * 3 + 2] = (Math.random() - 0.5) * 300;
-      
-      rainSpeeds[i] = 0.5 + Math.random() * 2.5;
-      rainSizes[i] = 0.5 + Math.random() * 2;
-    }
-    
-    rainGeo.setAttribute('position', new THREE.BufferAttribute(rainPositions, 3));
-    rainGeo.setAttribute('aSpeed', new THREE.BufferAttribute(rainSpeeds, 1));
-    rainGeo.setAttribute('aSize', new THREE.BufferAttribute(rainSizes, 1));
-    
-    const rainMaterial = new THREE.PointsMaterial({
-      color: 0x00ff88,
-      size: 1.5,
-      transparent: true,
-      opacity: 0.7,
-      blending: THREE.AdditiveBlending
-    });
-    
-    const rain = new THREE.Points(rainGeo, rainMaterial);
-    scene.add(rain);
-    
-    // Update particle count display
-    document.getElementById('particle-count').textContent = rainCount.toLocaleString();
-    
-    // Additional Particles (Floating particles)
-    const floatParticleCount = 5000;
-    const floatGeo = new THREE.BufferGeometry();
-    const floatPositions = new Float32Array(floatParticleCount * 3);
-    const floatColors = new Float32Array(floatParticleCount * 3);
-    
-    for (let i = 0; i < floatParticleCount; i++) {
-      floatPositions[i * 3 + 0] = (Math.random() - 0.5) * 400;
-      floatPositions[i * 3 + 1] = (Math.random() - 0.5) * 200;
-      floatPositions[i * 3 + 2] = (Math.random() - 0.5) * 400;
-      
-      // Random green/cyan colors
-      floatColors[i * 3 + 0] = Math.random() * 0.3;
-      floatColors[i * 3 + 1] = 0.5 + Math.random() * 0.5;
-      floatColors[i * 3 + 2] = 0.3 + Math.random() * 0.5;
-    }
-    
-    floatGeo.setAttribute('position', new THREE.BufferAttribute(floatPositions, 3));
-    floatGeo.setAttribute('color', new THREE.BufferAttribute(floatColors, 3));
-    
-    const floatMaterial = new THREE.PointsMaterial({
-      size: 2,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.6,
-      blending: THREE.AdditiveBlending
-    });
-    
-    const floatParticles = new THREE.Points(floatGeo, floatMaterial);
-    scene.add(floatParticles);
-    
-    // 3D Objects Group
-    const objectsGroup = new THREE.Group();
-    
-    // Create various 3D shapes
-    const geometries = [
-      new THREE.BoxGeometry(8, 8, 8),
-      new THREE.SphereGeometry(5, 32, 32),
-      new THREE.TorusGeometry(6, 2, 16, 100),
-      new THREE.ConeGeometry(5, 10, 32),
-      new THREE.OctahedronGeometry(6),
-      new THREE.TetrahedronGeometry(7),
-      new THREE.IcosahedronGeometry(6)
-    ];
-    
-    const material = new THREE.MeshStandardMaterial({
-      color: 0x003300,
-      metalness: 0.4,
-      roughness: 0.3,
-      emissive: 0x002200,
-      emissiveIntensity: 0.5
-    });
-    
-    // Create multiple objects
-    for (let i = 0; i < 25; i++) {
-      const geo = geometries[Math.floor(Math.random() * geometries.length)];
-      const obj = new THREE.Mesh(geo, material);
-      
-      obj.position.set(
-        (Math.random() - 0.5) * 120,
-        (Math.random() - 0.5) * 60,
-        (Math.random() - 0.5) * 100
-      );
-      
-      obj.rotation.set(
-        Math.random() * Math.PI,
-        Math.random() * Math.PI,
-        Math.random() * Math.PI
-      );
-      
-      obj.scale.setScalar(0.8 + Math.random() * 0.5);
-      
-      // Add animation properties
-      obj.userData = {
-        speed: 0.001 + Math.random() * 0.003,
-        rotationAxis: new THREE.Vector3(
-          Math.random() - 0.5,
-          Math.random() - 0.5,
-          Math.random() - 0.5
-        ).normalize()
-      };
-      
-      objectsGroup.add(obj);
-    }
-    
-    scene.add(objectsGroup);
-    
-    // Create connections between objects
-    const linesGroup = new THREE.Group();
-    const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0x00ff88,
-      transparent: true,
-      opacity: 0.2,
-      linewidth: 1
-    });
-    
-    // Add lines between nearby objects
-    const objectPositions = objectsGroup.children.map(obj => obj.position.clone());
-    
-    for (let i = 0; i < objectPositions.length; i++) {
-      for (let j = i + 1; j < objectPositions.length; j++) {
-        const distance = objectPositions[i].distanceTo(objectPositions[j]);
+        }, 200);
         
-        if (distance < 40) {
-          const lineGeometry = new THREE.BufferGeometry().setFromPoints([
-            objectPositions[i],
-            objectPositions[j]
-          ]);
-          
-          const line = new THREE.Line(lineGeometry, lineMaterial);
-          linesGroup.add(line);
+        // Initialize scroll animations for sections
+        function initScrollAnimations() {
+            const sections = document.querySelectorAll('section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
         }
-      }
-    }
-    
-    scene.add(linesGroup);
-    
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0x003300, 0.3);
-    scene.add(ambientLight);
-    
-    const directionalLight = new THREE.DirectionalLight(0x00ffaa, 0.8);
-    directionalLight.position.set(30, 50, 30);
-    directionalLight.castShadow = true;
-    directionalLight.shadow.mapSize.width = 2048;
-    directionalLight.shadow.mapSize.height = 2048;
-    scene.add(directionalLight);
-    
-    const pointLight = new THREE.PointLight(0x00ff88, 1, 300);
-    pointLight.position.set(-40, 20, 50);
-    pointLight.castShadow = true;
-    scene.add(pointLight);
-    
-    // Create a ground plane
-    const groundGeometry = new THREE.PlaneGeometry(500, 500);
-    const groundMaterial = new THREE.MeshStandardMaterial({
-      color: 0x001100,
-      metalness: 0.2,
-      roughness: 0.8
-    });
-    
-    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-    ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -50;
-    ground.receiveShadow = true;
-    scene.add(ground);
-    
-    // Agravix Text Plane
-    const canvas = document.createElement('canvas');
-    canvas.width = 2048;
-    canvas.height = 512;
-    const context = canvas.getContext('2d');
-    
-    // Gradient background
-    const gradient = context.createLinearGradient(0, 0, 2048, 0);
-    gradient.addColorStop(0, 'rgba(0, 255, 127, 0.1)');
-    gradient.addColorStop(0.5, 'rgba(0, 255, 127, 0.3)');
-    gradient.addColorStop(1, 'rgba(0, 255, 127, 0.1)');
-    
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, 2048, 512);
-    
-    // Main text
-    context.font = 'bold 120px Tahoma, Arial, sans-serif';
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-    
-    // Text shadow
-    context.shadowColor = '#00ff88';
-    context.shadowBlur = 30;
-    context.fillStyle = '#00ff88';
-    context.fillText('AGRAVIX', 1024, 180);
-    
-    // Subtitle
-    context.shadowBlur = 20;
-    context.font = '36px Tahoma, Arial, sans-serif';
-    context.fillStyle = 'rgba(200, 255, 220, 0.9)';
-    context.fillText('برنامه‌نویس · هکر اخلاقی · توسعه‌دهنده امنیت', 1024, 280);
-    
-    // Tagline
-    context.font = '28px Tahoma, Arial, sans-serif';
-    context.fillStyle = 'rgba(180, 255, 200, 0.7)';
-    context.fillText('کد می‌نویسم، امن می‌سازم، کشف می‌کنم', 1024, 340);
-    
-    const texture = new THREE.CanvasTexture(canvas);
-    const planeGeometry = new THREE.PlaneGeometry(50, 12.5);
-    const planeMaterial = new THREE.MeshBasicMaterial({
-      map: texture,
-      transparent: true,
-      side: THREE.DoubleSide
-    });
-    
-    const textPlane = new THREE.Mesh(planeGeometry, planeMaterial);
-    textPlane.position.set(0, 20, 0);
-    scene.add(textPlane);
-    
-    // Animation variables
-    let time = 0;
-    
-    // Animation loop
-    function animate() {
-      requestAnimationFrame(animate);
-      time += 0.01;
-      
-      // Update rain particles
-      const rainPositions = rain.geometry.attributes.position.array;
-      const rainSpeeds = rain.geometry.attributes.aSpeed.array;
-      
-      for (let i = 0; i < rainCount; i++) {
-        rainPositions[i * 3 + 1] -= rainSpeeds[i] * 0.8;
         
-        if (rainPositions[i * 3 + 1] < -250) {
-          rainPositions[i * 3 + 1] = 250 + Math.random() * 50;
-          rainPositions[i * 3 + 0] = (Math.random() - 0.5) * 300;
-          rainPositions[i * 3 + 2] = (Math.random() - 0.5) * 300;
+        // Language Toggle
+        const langToggle = document.getElementById('langToggle');
+        const body = document.body;
+        
+        langToggle.addEventListener('click', () => {
+            body.classList.toggle('english');
+            
+            if (body.classList.contains('english')) {
+                langToggle.innerHTML = '<i class="fas fa-language"></i>';
+                langToggle.title = 'Change to Persian / تغییر به فارسی';
+                localStorage.setItem('language', 'english');
+            } else {
+                langToggle.innerHTML = '<i class="fas fa-language"></i>';
+                langToggle.title = 'Change to English / تغییر به انگلیسی';
+                localStorage.setItem('language', 'persian');
+            }
+            
+            // Update mobile menu position based on language
+            updateMobileMenuPosition();
+        });
+        
+        // Check for saved language preference
+        if (localStorage.getItem('language') === 'english') {
+            body.classList.add('english');
+            langToggle.innerHTML = '<i class="fas fa-language"></i>';
+            langToggle.title = 'Change to Persian / تغییر به فارسی';
+        } else {
+            langToggle.title = 'Change to English / تغییر به انگلیسی';
         }
-      }
-      
-      rain.geometry.attributes.position.needsUpdate = true;
-      
-      // Update floating particles
-      const floatPositions = floatParticles.geometry.attributes.position.array;
-      
-      for (let i = 0; i < floatParticleCount; i++) {
-        // Gentle floating motion
-        floatPositions[i * 3 + 1] += Math.sin(time + i) * 0.02;
-        floatPositions[i * 3 + 0] += Math.cos(time * 0.7 + i) * 0.01;
-        floatPositions[i * 3 + 2] += Math.sin(time * 0.5 + i) * 0.015;
-      }
-      
-      floatParticles.geometry.attributes.position.needsUpdate = true;
-      
-      // Rotate objects
-      objectsGroup.children.forEach(obj => {
-        obj.rotation.x += obj.userData.speed * obj.userData.rotationAxis.x;
-        obj.rotation.y += obj.userData.speed * obj.userData.rotationAxis.y;
-        obj.rotation.z += obj.userData.speed * obj.userData.rotationAxis.z;
-      });
-      
-      // Rotate entire group
-      objectsGroup.rotation.y += 0.001;
-      
-      // Animate text plane
-      textPlane.rotation.y = Math.sin(time * 0.3) * 0.05;
-      textPlane.position.y = 20 + Math.sin(time * 0.5) * 2;
-      
-      // Animate lights
-      pointLight.position.x = Math.sin(time * 0.5) * 30;
-      pointLight.position.z = Math.cos(time * 0.3) * 20;
-      
-      // Update controls
-      controls.update();
-      
-      // Render scene
-      renderer.render(scene, camera);
-    }
-    
-    // Start animation
-    animate();
-    
-    // Handle window resize
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-    
-    // Handle visibility change (pause animation when tab is not active)
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        // Optionally pause heavy animations
-      } else {
-        // Resume animations
-      }
-    });
-  </script>
+        
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.querySelector('.nav-links');
+        
+        function updateMobileMenuPosition() {
+            if (body.classList.contains('english')) {
+                navLinks.style.left = '-100%';
+                navLinks.style.right = 'auto';
+            } else {
+                navLinks.style.right = '-100%';
+                navLinks.style.left = 'auto';
+            }
+        }
+        
+        mobileMenu.addEventListener('click', () => {
+            if (body.classList.contains('english')) {
+                navLinks.classList.toggle('active');
+                if (navLinks.classList.contains('active')) {
+                    navLinks.style.left = '0';
+                } else {
+                    navLinks.style.left = '-100%';
+                }
+            } else {
+                navLinks.classList.toggle('active');
+                if (navLinks.classList.contains('active')) {
+                    navLinks.style.right = '0';
+                } else {
+                    navLinks.style.right = '-100%';
+                }
+            }
+            
+            mobileMenu.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenu.innerHTML = '<i class="fas fa-bars"></i>';
+                updateMobileMenuPosition();
+            });
+        });
+        
+        // Initialize mobile menu position
+        updateMobileMenuPosition();
+        
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            
+            if (body.classList.contains('dark-theme')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-theme');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        // Animate skill bars when scrolled into view
+        const skillBars = document.querySelectorAll('.skill-progress');
+        
+        function animateSkillBars() {
+            skillBars.forEach(bar => {
+                const barPosition = bar.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (barPosition < screenPosition) {
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = width + '%';
+                }
+            });
+        }
+        
+        // Portfolio Filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                const filterValue = button.getAttribute('data-filter');
+                
+                portfolioItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Form Submission
+        const contactForm = document.getElementById('contactForm');
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values based on language
+            let name, email, service, message;
+            
+            if (body.classList.contains('english')) {
+                name = contactForm.querySelector('.ltr-text[type="text"]').value;
+                email = contactForm.querySelector('.ltr-text[type="email"]').value;
+                service = contactForm.querySelector('.ltr-text[type="select"]') ? contactForm.querySelector('.ltr-text[type="select"]').value : contactForm.querySelector('select.ltr-text').value;
+                message = contactForm.querySelector('textarea.ltr-text').value;
+            } else {
+                name = contactForm.querySelector('.rtl-text[type="text"]').value;
+                email = contactForm.querySelector('.rtl-text[type="email"]').value;
+                service = contactForm.querySelector('.rtl-text[type="select"]') ? contactForm.querySelector('.rtl-text[type="select"]').value : contactForm.querySelector('select.rtl-text').value;
+                message = contactForm.querySelector('textarea.rtl-text').value;
+            }
+            
+            // Show appropriate alert based on language
+            if (body.classList.contains('english')) {
+                alert(`Your request has been successfully submitted!\n\nName: ${name}\nEmail: ${email}\nRequest Type: ${service}\n\nI will contact you soon.`);
+            } else {
+                alert(`درخواست شما با موفقیت ثبت شد!\n\nنام: ${name}\nایمیل: ${email}\nنوع درخواست: ${service}\n\nبه زودی با شما تماس خواهم گرفت.`);
+            }
+            
+            // Reset form
+            contactForm.reset();
+        });
+        
+        // Download Resume Button
+        const downloadResume = document.getElementById('downloadResume');
+        
+        downloadResume.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            if (body.classList.contains('english')) {
+                alert('Your PDF resume is ready to download. In the real version, the PDF file will be downloaded.');
+            } else {
+                alert('رزومه PDF شما آماده دانلود است. در نسخه واقعی، فایل PDF دانلود خواهد شد.');
+            }
+        });
+        
+        // Image Upload for Profile (Demo)
+        const profileImage = document.getElementById('profileImage');
+        
+        profileImage.addEventListener('click', function() {
+            if (body.classList.contains('english')) {
+                alert('In the final version, you will be able to upload your profile picture.');
+            } else {
+                alert('در نسخه نهایی، این امکان وجود خواهد داشت که عکس پروفایل خود را آپلود کنید.');
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Animate skill bars on scroll
+        window.addEventListener('scroll', animateSkillBars);
+        
+        // Initialize skill bars after loading
+        setTimeout(() => {
+            animateSkillBars();
+        }, 1500);
+        
+        // Highlight Agravix Certification
+        const agravixCert = document.querySelector('.cert-agravix');
+        if (agravixCert) {
+            agravixCert.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.05)';
+            });
+            
+            agravixCert.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        }
+    </script>
 </body>
 </html>
