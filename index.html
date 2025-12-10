@@ -190,12 +190,16 @@
                 opacity: 1;
             }
         }
-
-        body.english {
-            font-family: 'Poppins', sans-serif;
-            direction: ltr;
+        /* حالت فارسی (پیش‌فرض) */
+        body:not(.english) .rtl-text {
+            display: block;
         }
 
+        body:not(.english) .ltr-text {
+            display: none;
+        }
+
+        /* حالت انگلیسی */
         body.english .rtl-text {
             display: none;
         }
@@ -204,12 +208,9 @@
             display: block;
         }
 
-        .rtl-text {
+        /* حالت پیش‌فرض برای عناصری که همیشه باید نمایش داده شوند */
+        .default-text {
             display: block;
-        }
-
-        .ltr-text {
-            display: none;
         }
 
         .container {
@@ -1166,25 +1167,40 @@
                 box-shadow: var(--shadow);
                 transition: var(--transition);
                 z-index: 999;
-                flex-direction: column;
+                flex-direction: column !important; /* مهم: همیشه ستونی باشد */
                 background-color: var(--light-color);
+                display: flex;
             }
             
             body:not(.english) .nav-links {
                 right: -100%;
+                left: auto;
             }
             
             body.english .nav-links {
                 left: -100%;
+                right: auto;
             }
             
-            .nav-links.active {
+            body:not(.english) .nav-links.active {
                 right: 0;
+                left: auto;
+            }
+
+            body.english .nav-links.active {
                 left: 0;
+                right: auto;
             }
             
             .nav-links li {
                 margin: 15px 0 !important;
+                width: 100%;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 10px 0;
+                font-size: 1.2rem;
             }
             
             .mobile-menu {
@@ -1789,8 +1805,8 @@
                         <div>
                             <h3 class="rtl-text">موقعیت</h3>
                             <h3 class="ltr-text">Location</h3>
-                            <p class="rtl-text">تهران، ایران</p>
-                            <p class="ltr-text">Tehran, Iran</p>
+                            <p class="rtl-text">اذربایجان غربی, ایران</p>
+                            <p class="ltr-text">West Azerbaijan, Iran</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -1800,7 +1816,7 @@
                         <div>
                             <h3 class="rtl-text">تلفن</h3>
                             <h3 class="ltr-text">Phone</h3>
-                            <p>+۹۸ ۹۱۲ XXX XXXX</p>
+                            <p>+98 912 XXX XXXX</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -2172,30 +2188,130 @@
             contactForm.reset();
         });
         
-        // Download Resume Button
+            // Download Resume Button
         const downloadResume = document.getElementById('downloadResume');
-        
+
         downloadResume.addEventListener('click', function(e) {
             e.preventDefault();
             
-            if (body.classList.contains('english')) {
-                alert('Your PDF resume is ready to download. In the real version, the PDF file will be downloaded.');
-            } else {
-                alert('رزومه PDF شما آماده دانلود است. در نسخه واقعی، فایل PDF دانلود خواهد شد.');
-            }
+            // نام فایل رزومه
+            const resumeFile = 'resume.pdf';
+            
+            // ایجاد یک لینک مخفی برای دانلود
+            const link = document.createElement('a');
+            link.href = resumeFile;
+            link.download = 'Agravix_Resume.png';
+            
+            // بررسی وجود فایل
+            fetch(resumeFile)
+                .then(response => {
+                    if (response.ok) {
+                        // فایل موجود است - دانلود شود
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        if (body.classList.contains('english')) {
+                            alert('Your resume has been downloaded successfully!');
+                        } else {
+                            alert('رزومه شما با موفقیت دانلود شد!');
+                        }
+                    } else {
+                        // فایل وجود ندارد
+                        throw new Error('File not found');
+                    }
+                })
+                .catch(error => {
+                    // فایل یافت نشد
+                    if (body.classList.contains('english')) {
+                        alert('No resume file has been uploaded yet. Please check back later.');
+                    } else {
+                        alert('فعلا فایل رزومه‌ای آپلود نشده است. لطفا بعدا مراجعه کنید.');
+                    }
+                });
         });
         
-        // Image Upload for Profile (Demo)
+        // Image Zoom for Profile
         const profileImage = document.getElementById('profileImage');
-        
+        const modal = document.createElement('div');
+        modal.id = 'imageModal';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            cursor: pointer;
+        `;
+
+        const modalImg = document.createElement('img');
+        modalImg.src = profileImage.src;
+        modalImg.style.cssText = `
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            border: 5px solid var(--agravix-color);
+            box-shadow: 0 0 50px rgba(255,107,107,0.5);
+        `;
+
+        modal.appendChild(modalImg);
+        document.body.appendChild(modal);
+
+        // Open modal on click
         profileImage.addEventListener('click', function() {
-            if (body.classList.contains('english')) {
-                alert('In the final version, you will be able to upload your profile picture.');
-            } else {
-                alert('در نسخه نهایی، این امکان وجود خواهد داشت که عکس پروفایل خود را آپلود کنید.');
-            }
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         });
-        
+
+        // Close modal on click
+        modal.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Also add this CSS to the style section:
+        // در بخش CSS این استایل‌ها را اضافه کنید:
+        /*
+        #imageModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            cursor: pointer;
+        }
+
+        #imageModal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            border: 5px solid var(--agravix-color);
+            box-shadow: 0 0 50px rgba(255,107,107,0.5);
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        */
+
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
